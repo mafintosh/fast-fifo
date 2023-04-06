@@ -45,6 +45,10 @@ Returns `true` if the FIFO is empty and false otherwise.
 
 Return the oldest value from the FIFO without shifting it out.
 
+#### `len = q.length`
+
+Get the number of entries remaining in the FIFO.
+
 ## Benchmarks
 
 Included in bench.js is a simple benchmark that benchmarks this against a simple
