@@ -18,16 +18,15 @@ module.exports = class FastFIFO {
   }
 
   shift () {
+    if (this.length > 0) this.length--
     const val = this.tail.shift()
     if (val === undefined && this.tail.next) {
       const next = this.tail.next
       this.tail.next = null
       this.tail = next
-      this.length--
       return this.tail.shift()
     }
 
-    if (val !== undefined) this.length--
     return val
   }
 
