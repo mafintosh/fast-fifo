@@ -30,9 +30,33 @@ tape('basic', function (t) {
 
   t.same(q.shift(), undefined)
   t.ok(q.isEmpty())
+  t.equal(q.length, 0)
   for (const value of values) q.push(value)
-  while (!q.isEmpty()) t.same(q.shift(), values.shift())
+  while (!q.isEmpty()) {
+    t.same(q.shift(), values.shift())
+    t.equal(q.length, values.length)
+  }
   t.same(q.shift(), undefined)
   t.ok(q.isEmpty())
+  t.end()
+})
+
+tape('long length', function (t) {
+  const q = new FIFO()
+
+  const len = 0x8f7
+  for (let i = 0; i < len; i++) q.push(i)
+
+  t.same(q.length, len)
+
+  let shifts = 0
+  while (!q.isEmpty()) {
+    q.shift()
+    shifts++
+  }
+
+  t.same(shifts, len)
+  t.same(q.length, 0)
+
   t.end()
 })
