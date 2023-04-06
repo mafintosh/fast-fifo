@@ -5,19 +5,11 @@ module.exports = class FastFIFO {
     this.hwm = hwm || 16
     this.head = new FixedFIFO(this.hwm)
     this.tail = this.head
-  }
-
-  get length () {
-    let length = this.tail.length
-    let tail = this.tail
-    while (tail !== this.head) {
-      tail = tail.next
-      length += tail.length
-    }
-    return length
+    this.length = 0
   }
 
   push (val) {
+    this.length++
     if (!this.head.push(val)) {
       const prev = this.head
       this.head = prev.next = new FixedFIFO(2 * this.head.buffer.length)
@@ -31,8 +23,11 @@ module.exports = class FastFIFO {
       const next = this.tail.next
       this.tail.next = null
       this.tail = next
+      this.length--
       return this.tail.shift()
     }
+
+    if (val !== undefined) this.length--
     return val
   }
 
