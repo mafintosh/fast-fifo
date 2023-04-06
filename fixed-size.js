@@ -6,6 +6,16 @@ module.exports = class FixedFIFO {
     this.top = 0
     this.btm = 0
     this.next = null
+    this._done = false
+  }
+
+  get length () {
+    if (this.top === this.btm) {
+      if (this._done) return 0
+      if (this.top === 0) return this.mask + 1
+    }
+    const len = this.top - this.btm
+    return len < 0 ? len + this.mask + 1 : len
   }
 
   push (data) {
@@ -17,7 +27,10 @@ module.exports = class FixedFIFO {
 
   shift () {
     const last = this.buffer[this.btm]
-    if (last === undefined) return undefined
+    if (last === undefined) {
+      this._done = true
+      return undefined
+    }
     this.buffer[this.btm] = undefined
     this.btm = (this.btm + 1) & this.mask
     return last

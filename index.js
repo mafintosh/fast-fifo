@@ -7,6 +7,16 @@ module.exports = class FastFIFO {
     this.tail = this.head
   }
 
+  get length () {
+    let length = this.tail.length
+    let tail = this.tail
+    while (tail !== this.head) {
+      tail = tail.next
+      length += tail.length
+    }
+    return length
+  }
+
   push (val) {
     if (!this.head.push(val)) {
       const prev = this.head
