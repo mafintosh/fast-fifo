@@ -5,9 +5,11 @@ module.exports = class FastFIFO {
     this.hwm = hwm || 16
     this.head = new FixedFIFO(this.hwm)
     this.tail = this.head
+    this.length = 0
   }
 
   push (val) {
+    this.length++
     if (!this.head.push(val)) {
       const prev = this.head
       this.head = prev.next = new FixedFIFO(2 * this.head.buffer.length)
@@ -16,6 +18,7 @@ module.exports = class FastFIFO {
   }
 
   shift () {
+    if (this.length !== 0) this.length--
     const val = this.tail.shift()
     if (val === undefined && this.tail.next) {
       const next = this.tail.next
@@ -23,6 +26,7 @@ module.exports = class FastFIFO {
       this.tail = next
       return this.tail.shift()
     }
+
     return val
   }
 
