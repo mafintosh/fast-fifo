@@ -57,3 +57,21 @@ test('long length', function (t) {
   t.is(shifts, len)
   t.is(q.length, 0)
 })
+
+test('clear', function (t) {
+  const q = new FIFO()
+
+  q.push('a')
+  q.push('a')
+  q.clear()
+  t.is(q.shift(), undefined)
+  t.is(q.length, 0)
+
+  for (let i = 0; i < 50; i++) {
+    q.push('a')
+  }
+
+  q.clear()
+  t.is(q.shift(), undefined)
+  t.is(q.length, 0)
+})
