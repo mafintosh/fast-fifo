@@ -1,7 +1,7 @@
-const tape = require('tape')
+const test = require('brittle')
 const FIFO = require('./')
 
-tape('basic', function (t) {
+test('basic', function (t) {
   const q = new FIFO()
   const values = [
     1,
@@ -28,26 +28,25 @@ tape('basic', function (t) {
     null
   ]
 
-  t.same(q.shift(), undefined)
+  t.is(q.shift(), undefined)
   t.ok(q.isEmpty())
-  t.equal(q.length, 0)
+  t.is(q.length, 0)
   for (const value of values) q.push(value)
   while (!q.isEmpty()) {
-    t.same(q.shift(), values.shift())
-    t.equal(q.length, values.length)
+    t.is(q.shift(), values.shift())
+    t.is(q.length, values.length)
   }
-  t.same(q.shift(), undefined)
+  t.is(q.shift(), undefined)
   t.ok(q.isEmpty())
-  t.end()
 })
 
-tape('long length', function (t) {
+test('long length', function (t) {
   const q = new FIFO()
 
   const len = 0x8f7
   for (let i = 0; i < len; i++) q.push(i)
 
-  t.same(q.length, len)
+  t.is(q.length, len)
 
   let shifts = 0
   while (!q.isEmpty()) {
@@ -55,8 +54,6 @@ tape('long length', function (t) {
     shifts++
   }
 
-  t.same(shifts, len)
-  t.same(q.length, 0)
-
-  t.end()
+  t.is(shifts, len)
+  t.is(q.length, 0)
 })
