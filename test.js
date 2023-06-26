@@ -75,3 +75,48 @@ test('clear', function (t) {
   t.is(q.shift(), undefined)
   t.is(q.length, 0)
 })
+
+test('basic length', function (t) {
+  const q = new FIFO()
+
+  q.push('a')
+  t.is(q.length, 1)
+
+  q.push('a')
+  t.is(q.length, 2)
+
+  q.shift()
+  t.is(q.length, 1)
+
+  q.shift()
+  t.is(q.length, 0)
+
+  q.shift()
+  t.is(q.length, 0)
+})
+
+test('peek', function (t) {
+  const q = new FIFO()
+
+  q.push('a')
+  t.is(q.length, 1)
+  t.is(q.peek(), 'a')
+  t.is(q.peek(), 'a')
+
+  q.push('b')
+  t.is(q.length, 2)
+  t.is(q.peek(), 'a')
+  t.is(q.peek(), 'a')
+
+  t.is(q.shift(), 'a')
+  t.is(q.peek(), 'b')
+  t.is(q.peek(), 'b')
+
+  t.is(q.shift(), 'b')
+  t.is(q.peek(), undefined)
+  t.is(q.peek(), undefined)
+})
+
+test('invalid hwm', function (t) {
+  t.exception(() => new FIFO(3))
+})
