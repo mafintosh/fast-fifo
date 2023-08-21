@@ -117,6 +117,23 @@ test('peek', function (t) {
   t.is(q.peek(), undefined)
 })
 
+test('peek edgecase', function (t) {
+  const q = new FIFO(4)
+
+  q.push('a')
+  q.push('b')
+  q.push('c')
+  q.push('d')
+  q.push('e')
+
+  t.is(q.peek(), q.shift())
+  t.is(q.peek(), q.shift())
+  t.is(q.peek(), q.shift())
+  t.is(q.peek(), q.shift())
+  t.is(q.peek(), q.shift())
+  t.is(q.peek(), q.shift())
+})
+
 test('invalid hwm', function (t) {
   t.exception(() => new FIFO(3))
 })
