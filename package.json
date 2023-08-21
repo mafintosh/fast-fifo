@@ -3,6 +3,9 @@
   "version": "1.3.0",
   "description": "A fast fifo implementation similar to the one powering nextTick in Node.js core",
   "main": "index.js",
+  "files": [
+    "*.js"
+  ],
   "dependencies": {},
   "devDependencies": {
     "standard": "^17.1.0",
