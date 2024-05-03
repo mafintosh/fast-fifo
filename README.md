@@ -73,12 +73,6 @@ fast-fifo individual push and shift: 1516.983ms
 
 YMMV
 
-## Security contact information
-
-To report a security vulnerability, please use the
-[Tidelift security contact](https://tidelift.com/security).
-Tidelift will coordinate the fix and disclosure.
-
 ## License
 
 MIT
